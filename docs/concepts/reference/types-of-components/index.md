@@ -6,8 +6,6 @@ sidebar_position: 0
 
 A component is a unit of a repository that the pipelines know how to check and deploy: a Lambda function, a Terragrunt infrastructure root, a library, and so on. A [project](../info-yml.md) can contain any number of components. Each one is described by its own file at `.components/<name>/info.yml`.
 
-For the concepts behind components, see [Projects and components](../../concepts/projects-and-components.md).
-
 ## Example
 
 ```yaml

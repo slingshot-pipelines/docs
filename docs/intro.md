@@ -46,5 +46,5 @@ flowchart LR
 
 ## Where to go next
 
-- New here? Read [Concepts](./concepts/projects-and-components.md), then [Quick start](./quick-start.md).
+- New here? Read [Concepts](./concepts/reference/info-yml.md), then [Quick start](./quick-start.md).
 - Want to see it in the wild? See the [rx-refill-reminders example](./examples/rx-refill-reminders.md).

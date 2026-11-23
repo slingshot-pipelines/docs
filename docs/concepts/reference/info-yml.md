@@ -6,8 +6,6 @@ sidebar_position: 3
 
 A project describes a repository as a whole: its name and, optionally, the environments it deploys to and the order they are deployed in. Each repository has one project, defined in `.components/info.yml`. The things inside the repository that are checked and deployed are its [components](./types-of-components/index.md).
 
-For the concepts behind this file, see [Projects and components](../concepts/projects-and-components.md).
-
 ## Example
 
 ```yaml
@@ -52,7 +50,7 @@ When `deployments` is present, both `environments` and `sequence` are required.
 | `deployments.sequence[].environment` | yes | The environment deployed to in this step |
 | `deployments.sequence[].manual` | no | If `true`, deployment to the next environment is not triggered automatically |
 
-Components of some types can also declare their own `deployments`. See [Deployments & Environments](../concepts/deployments-and-environments.md).
+Components of some types can also declare their own `deployments`. See [Deployments & Environments](../deployments-and-environments.md).
 
 ## Editor validation
 
