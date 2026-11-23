@@ -1,0 +1,39 @@
+name: pr-closed
+
+# Removes pr/<number>/ from the gh-pages branch when a PR is closed.
+
+on:
+  pull_request:
+    types:
+      - closed
+
+permissions:
+  contents: write
+
+# Shared with deploy and pr: every run that pushes to gh-pages is serialized.
+concurrency:
+  group: gh-pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        uses: actions/checkout@v6
+        with:
+          ref: gh-pages
+      -
+        name: Remove preview
+        run: |
+          if [ ! -d "pr/${PR_NUMBER}" ]; then
+            echo "No preview for PR ${PR_NUMBER}, nothing to do."
+            exit 0
+          fi
+          git rm -rf "pr/${PR_NUMBER}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Remove preview for PR ${PR_NUMBER}"
+          git push
+        env:
+          PR_NUMBER: ${{ github.event.number }}
