@@ -32,4 +32,4 @@ No other fields are allowed. The schema is [`json-schemas.schema.json`](https://
 |-------|----------|--------|
 | Check | [`check-json-schemas`](https://github.com/slingshot-pipelines/workflows/blob/main/.github/workflows/check-json-schemas.yml) | `COMPONENTS` |
 
-The plural workflow (`check-*s`, `release-*ies`) takes a JSON list in `COMPONENTS` and runs the singular workflow for each. Workflow inputs and secrets are documented in the [workflows repository](https://github.com/slingshot-pipelines/workflows); see the [reusable workflows reference](../workflows.md).
+The plural workflow (`check-*s`, `release-*ies`) takes a JSON list in `COMPONENTS` and runs the singular workflow for each. Workflow inputs and secrets are documented in the [workflows repository](https://github.com/slingshot-pipelines/workflows).

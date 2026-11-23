@@ -72,4 +72,4 @@ The `$schema` comment gives you autocompletion and validation in editors that us
 | `terraform-modules` | Reusable Terraform modules |
 | `terragrunt-infra` | Terragrunt/Terraform infrastructure |
 
-Each type has its own page in the [types of components reference](../reference/types-of-components/terragrunt-infra.md), including its extra fields and the check, deploy and release workflows that apply.
+Each type has its own page in the [components reference](../reference/types-of-components/terragrunt-infra.md), including its extra fields and the check, deploy and release workflows that apply.

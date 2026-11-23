@@ -34,4 +34,4 @@ No other fields are allowed. The schema is [`s3-website.schema.json`](https://gi
 | Check | [`check-s3-website`](https://github.com/slingshot-pipelines/workflows/blob/main/.github/workflows/check-s3-website.yml), [`check-s3-websites`](https://github.com/slingshot-pipelines/workflows/blob/main/.github/workflows/check-s3-websites.yml) | `COMPONENT` |
 | Deploy | [`deploy-s3-website`](https://github.com/slingshot-pipelines/workflows/blob/main/.github/workflows/deploy-s3-website.yml) | `COMPONENT`, `ENVIRONMENT`, `TAG` |
 
-The plural workflow (`check-*s`, `release-*ies`) takes a JSON list in `COMPONENTS` and runs the singular workflow for each. Workflow inputs and secrets are documented in the [workflows repository](https://github.com/slingshot-pipelines/workflows); see the [reusable workflows reference](../workflows.md).
+The plural workflow (`check-*s`, `release-*ies`) takes a JSON list in `COMPONENTS` and runs the singular workflow for each. Workflow inputs and secrets are documented in the [workflows repository](https://github.com/slingshot-pipelines/workflows).

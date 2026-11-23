@@ -1,8 +1,4 @@
 {
-  "label": "Types of components",
-  "position": 4,
-  "link": {
-    "type": "generated-index",
-    "description": "Each component declares a `type` that determines which check and deploy workflows apply. This section has one page per type."
-  }
+  "label": "Components",
+  "position": 4
 }

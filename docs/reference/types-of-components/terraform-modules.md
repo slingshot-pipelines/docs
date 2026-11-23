@@ -33,4 +33,4 @@ No other fields are allowed. The schema is [`terraform-modules.schema.json`](htt
 | Check | [`check-terraform-modules`](https://github.com/slingshot-pipelines/workflows/blob/main/.github/workflows/check-terraform-modules.yml) | `COMPONENT`, `TERRAFORM_VERSION`, `TERRAGRUNT_VERSION` |
 | Release | [`release-terraform-modules`](https://github.com/slingshot-pipelines/workflows/blob/main/.github/workflows/release-terraform-modules.yml) | `COMPONENT`, `ALL` (default `false`) |
 
-Workflow inputs and secrets are documented in the [workflows repository](https://github.com/slingshot-pipelines/workflows); see the [reusable workflows reference](../workflows.md).
+Workflow inputs and secrets are documented in the [workflows repository](https://github.com/slingshot-pipelines/workflows).

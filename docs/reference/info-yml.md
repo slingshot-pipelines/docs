@@ -2,34 +2,58 @@
 sidebar_position: 3
 ---
 
-# info.yml reference
+# Projects
 
-JSON Schemas are published in `slingshot-pipelines/jsonschemas` and are the source of truth:
+A project describes a repository as a whole: its name and, optionally, the environments it deploys to and the order they are deployed in. Each repository has one project, defined in `.components/info.yml`. The things inside the repository that are checked and deployed are its [components](./types-of-components/index.md).
 
-- Project: `schemas/project/v1/project.schema.json`
-- Component: `schemas/component/v1/component.schema.json`
+For the concepts behind this file, see [Projects and components](../concepts/projects-and-components.md).
 
-Reference one with a modeline for editor validation:
+## Example
 
 ```yaml
-# yaml-language-server: $schema=https://raw.githubusercontent.com/slingshot-pipelines/jsonschemas/main/schemas/component/v1/component.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/slingshot-pipelines/jsonschemas/main/schemas/project/v1/project.schema.json
+
+project: platform
+description: Shared platform infrastructure
+
+deployments:
+  environments:
+    dev: {}
+    prd: {}
+
+  sequence:
+    - environment: dev
+    - environment: prd
+      manual: true
 ```
 
-## Project (`.components/info.yml`)
+A repository that only needs checks and no deployments can use a minimal file:
+
+```yaml
+project: jsonschemas
+```
+
+## Fields
 
 | Field | Required | Description |
 |-------|----------|-------------|
 | `project` | yes | Project name. Typically matches the repository name |
 | `description` | no | Description of the project |
-| `deployments.environments` | no | Map of environment name to settings (`{}` for defaults) |
-| `deployments.sequence` | no | Ordered list of `{environment: <name>, manual?: boolean}`. `manual: true` stops deployment to the next environment being triggered automatically |
+| `deployments` | no | The environments the project deploys to and the order they are deployed in. See [below](#deployments) |
 
-## Component (`.components/<name>/info.yml`)
+## Deployments
+
+When `deployments` is present, both `environments` and `sequence` are required.
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `component` | yes | Component name |
-| `type` | yes | One of `github-action`, `json-schemas`, `lambda`, `library`, `s3-website`, `terraform-modules`, `terragrunt-infra` |
-| `path` | yes | Directory containing the component |
+| `deployments.environments` | yes | Map of environment name to settings. No settings are currently supported, so use `{}` |
+| `deployments.sequence` | yes | Ordered list of deployment steps. Each step triggers the next |
+| `deployments.sequence[].environment` | yes | The environment deployed to in this step |
+| `deployments.sequence[].manual` | no | If `true`, deployment to the next environment is not triggered automatically |
 
-Some types add fields (and the `deployments` field is only accepted by `lambda`, `s3-website` and `terragrunt-infra`). Unknown fields are rejected. See [types of components](./types-of-components/terragrunt-infra.md) for each type.
+Components of some types can also declare their own `deployments`. See [environments and sequences](../concepts/environments-and-sequences.md).
+
+## Editor validation
+
+The project schema is published in `slingshot-pipelines/jsonschemas` and is the source of truth: [`project.schema.json`](https://github.com/slingshot-pipelines/jsonschemas/blob/main/schemas/project/v1/project.schema.json). Add a modeline to the top of the file, as in the example above, for autocompletion and validation in editors that use `yaml-language-server`.
