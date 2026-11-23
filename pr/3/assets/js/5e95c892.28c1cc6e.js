@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkslingshot_pipelines_docs=self.webpackChunkslingshot_pipelines_docs||[]).push([["1668"],{6569(s,e,r){r.r(e),r.d(e,{default:()=>t});var n=r(4848);r(6540);var c=r(4164),i=r(4308),l=r(8287),a=r(2831),p=r(6525);function t(s){return(0,n.jsx)(i.e3,{className:(0,c.A)(l.G.wrapper.docsPages),children:(0,n.jsx)(p.A,{children:(0,a.v)(s.route.routes)})})}}}]);
