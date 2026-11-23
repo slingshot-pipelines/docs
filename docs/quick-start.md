@@ -296,6 +296,6 @@ If your organization keeps a template repository with these files in place, gene
 
 ## 3. Add content
 
-Add the component's files under the `path` you declared, and open a pull request. The workflows detect the change and run the checks for that component. See [Add a component](./guides/add-a-component.md) for adding further components.
+Add the component's files under the `path` you declared, and open a pull request. The workflows detect the change and run the checks for that component.
 
 A step-by-step tutorial is planned for this section.

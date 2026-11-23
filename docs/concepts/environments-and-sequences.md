@@ -32,4 +32,4 @@ The event naming and the `COMPONENT` / `ENVIRONMENT` / `TAG` payload are inferre
 
 ## Manual deploys
 
-Deploy workflows also support `workflow_dispatch`, so you can deploy a specific tag to a specific environment, and choose whether the rest of the sequence should continue (`DISPATCH_NEXT`). See [Run a manual deploy](../guides/manual-deploy.md).
+Deploy workflows also support `workflow_dispatch`, so you can deploy a specific tag to a specific environment, and choose whether the rest of the sequence should continue (`DISPATCH_NEXT`).
