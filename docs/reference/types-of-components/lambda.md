@@ -32,7 +32,7 @@ subpaths:
 | `subpaths.src` | yes | Path to the Lambda source code |
 | `subpaths.build` | yes | Path for the compiled executable |
 | `subpaths.infra` | yes | Path to the Lambda infrastructure |
-| `deployments` | no | Per-component [environments and sequence](../../concepts/environments-and-sequences.md) |
+| `deployments` | no | Per-component [environments and sequence](../../deployments-and-environments.md) |
 
 No other fields are allowed. The schema is [`lambda.schema.json`](https://github.com/slingshot-pipelines/jsonschemas/blob/main/schemas/component-types/v1/lambda.schema.json).
 
