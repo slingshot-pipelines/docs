@@ -1,0 +1,58 @@
+name: pr
+
+# Builds the docs for every PR and publishes a preview to pr/<number>/ on the
+# gh-pages branch. Closed PRs are cleaned up by cleanup-pr-preview.
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# Production, preview and cleanup runs all push to gh-pages, so serialize them.
+concurrency:
+  group: gh-pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Previews are served from /docs/pr/<number>/ and kept out of search.
+      - run: npm run build
+        env:
+          DOCS_BASE_URL: /docs/pr/${{ github.event.number }}/
+          DOCS_NOINDEX: 'true'
+
+      # Fork PRs have no write token, so they only get the build check above.
+      - name: Deploy preview
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build
+          branch: gh-pages
+          target-folder: pr/${{ github.event.number }}
+
+      - name: Comment preview link
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: pr-preview
+          message: |
+            :rocket: Docs preview: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr/${{ github.event.number }}/
+
+            Built from ${{ github.event.pull_request.head.sha }}. It may take a minute for the GitHub Pages deployment to finish.
