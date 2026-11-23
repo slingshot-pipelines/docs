@@ -23,7 +23,7 @@ path: infra
 | `component` | yes | Name of the component |
 | `type` | yes | `terragrunt-infra` |
 | `path` | yes | Directory containing the component |
-| `deployments` | no | Per-component [environments and sequence](../../deployments-and-environments.md) |
+| `deployments` | no | Per-component [environments and sequence](../../concepts/deployments-and-environments.md) |
 
 No other fields are allowed. The schema is [`terragrunt-infra.schema.json`](https://github.com/slingshot-pipelines/jsonschemas/blob/main/schemas/component-types/v1/terragrunt-infra.schema.json).
 

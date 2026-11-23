@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2.5
+sidebar_position: 2
 ---
 
 # Deployments & Environments
@@ -50,7 +50,7 @@ A few things to know:
 - An empty sequence means there is nothing to deploy to. The release is created straight away as a full release rather than a prerelease.
 - The `manual` flag is accepted by the schema, but the `parse-sequence` action in `action-deployment-sequence` does not read it. Honouring it is up to your deploy workflow, which would need to skip `dispatch-next` for a step marked `manual`.
 
-See [`info.yml`](./reference/info-yml.md#deployments) for the field reference.
+See [`info.yml`](../reference/info-yml.md#deployments) for the field reference.
 
 ### Adding an environment
 
@@ -107,7 +107,7 @@ The `parse-sequence` action takes the component and the `PREVIOUS_ENVIRONMENT` (
 
 ### 4. Deploy the tag
 
-Call the reusable `deploy-<type>` workflow with `COMPONENT`, `ENVIRONMENT` and `TAG`, plus the inputs that type needs (for Terragrunt types, `TERRAFORM_VERSION` and `TERRAGRUNT_VERSION`). Each type's page under [component types](./reference/types-of-components/index.md) lists its inputs.
+Call the reusable `deploy-<type>` workflow with `COMPONENT`, `ENVIRONMENT` and `TAG`, plus the inputs that type needs (for Terragrunt types, `TERRAFORM_VERSION` and `TERRAGRUNT_VERSION`). Each type's page under [component types](../reference/types-of-components/index.md) lists its inputs.
 
 ### 5. Continue or finish
 
@@ -118,7 +118,7 @@ After a successful deploy:
 
 On a manual run, only continue the sequence when `DISPATCH_NEXT` is `true`.
 
-The [Quick start](./quick-start.md) has a complete, working `deploy-terragrunt-infra.yml` that does all of this. To support another component type, copy it and change the type in the file name, the event names and the reusable workflow it calls.
+The [Quick start](../quick-start.md) has a complete, working `deploy-terragrunt-infra.yml` that does all of this. To support another component type, copy it and change the type in the file name, the event names and the reusable workflow it calls.
 
 ### Practical notes
 
@@ -139,4 +139,4 @@ Deploy workflows also support `workflow_dispatch`, so you can deploy a specific 
 
 ## A worked example
 
-The [rx-refill-reminders example](./examples/rx-refill-reminders.md) shows a project with `dev` and `prd`, its `on-push.yml` that starts the sequence, and its `deploy-terragrunt-infra.yml` that runs it.
+The [rx-refill-reminders example](../examples/rx-refill-reminders.md) shows a project with `dev` and `prd`, its `on-push.yml` that starts the sequence, and its `deploy-terragrunt-infra.yml` that runs it.
