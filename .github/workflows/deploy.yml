@@ -2,7 +2,7 @@ name: deploy
 
 # Publishes the production docs to the root of the gh-pages branch when main
 # changes (Pages source: "Deploy from a branch"). PR previews live under pr/ on
-# the same branch and are managed by the pr and cleanup-pr-preview workflows.
+# the same branch and are managed by the pr and pr-closed workflows.
 
 on:
   push:

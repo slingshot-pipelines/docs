@@ -1,4 +1,4 @@
-name: cleanup-pr-preview
+name: pr-closed
 
 # Removes pr/<number>/ from the gh-pages branch when a PR is closed.
 

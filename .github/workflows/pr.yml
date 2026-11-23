@@ -1,7 +1,7 @@
 name: pr
 
 # Builds the docs for every PR and publishes a preview to pr/<number>/ on the
-# gh-pages branch. Closed PRs are cleaned up by cleanup-pr-preview.
+# gh-pages branch. Closed PRs are cleaned up by pr-closed.
 
 on:
   pull_request:
