@@ -17,8 +17,6 @@ concurrency:
 
 jobs:
   cleanup:
-    # Fork PRs never got a preview (and have no write token).
-    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       -

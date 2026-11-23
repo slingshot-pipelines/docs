@@ -38,10 +38,8 @@ jobs:
         env:
           DOCS_BASE_URL: /docs/pr/${{ github.event.number }}/
           DOCS_NOINDEX: 'true'
-      # Fork PRs have no write token, so they only get the build check above.
       -
         name: Deploy preview
-        if: github.event.pull_request.head.repo.full_name == github.repository
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build
@@ -49,7 +47,6 @@ jobs:
           target-folder: pr/${{ github.event.number }}
       -
         name: Comment preview link
-        if: github.event.pull_request.head.repo.full_name == github.repository
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: pr-preview
