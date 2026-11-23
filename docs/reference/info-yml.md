@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# info.yml reference
+# Projects
 
 JSON Schemas are published in `slingshot-pipelines/jsonschemas` and are the source of truth:
 
