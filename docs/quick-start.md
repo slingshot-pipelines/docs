@@ -61,7 +61,7 @@ type: terragrunt-infra
 path: infra
 ```
 
-The `type` decides which check and deploy workflows apply to the component. See [Types of components](/category/types-of-components) for every type and the fields it accepts, and the [info.yml reference](./reference/info-yml.md) for the project and component files.
+The `type` decides which check and deploy workflows apply to the component. See [Types of components](./reference/types-of-components/index.md) for every type and the fields it accepts, and the [info.yml reference](./reference/info-yml.md) for the project and component files.
 
 ## 2. Create the GitHub workflows
 
@@ -401,7 +401,7 @@ jobs:
 </TabItem>
 </Tabs>
 
-The other component types follow the same shape. Change the event names and the reusable workflow, for example `deploy-lambda.yml@deploy-lambda/v1`. See the [reusable workflows](./reference/workflows.md) for what each type needs, and [Environments and deployment sequences](./concepts/environments-and-sequences.md) for how a sequence runs.
+The other component types follow the same shape. Change the event names and the reusable workflow, for example `deploy-lambda.yml@deploy-lambda/v1`. See each [component type](./reference/types-of-components/index.md) for the workflows it uses and their inputs, and [Environments and deployment sequences](./concepts/environments-and-sequences.md) for how a sequence runs.
 
 ### Configure the repository
 
