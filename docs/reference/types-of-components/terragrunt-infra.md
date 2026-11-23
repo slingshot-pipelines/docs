@@ -1,41 +1,37 @@
 ---
-sidebar_position: 1
+sidebar_position: 7
 ---
 
 # terragrunt-infra
 
-Terragrunt/Terraform infrastructure. This is the only type that is both checked on pull requests and deployed through an [environment sequence](../../concepts/environments-and-sequences.md).
-
-:::note[Inferred]
-Details here are taken from real callers and examples, not from the workflow source.
-:::
+Terragrunt/Terraform infrastructure, checked on pull requests and deployed through the environment sequence.
 
 ## Definition
 
 ```yaml
-# .components/infra/info.yml
+# yaml-language-server: $schema=https://raw.githubusercontent.com/slingshot-pipelines/jsonschemas/main/schemas/component/v1/component.schema.json
+
 component: infra
 type: terragrunt-infra
-
 path: infra
 ```
 
+## Fields
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `component` | yes | Name of the component |
+| `type` | yes | `terragrunt-infra` |
+| `path` | yes | Directory containing the component |
+| `deployments` | no | Per-component [environments and sequence](../../concepts/environments-and-sequences.md) |
+
+No other fields are allowed. The schema is [`terragrunt-infra.schema.json`](https://github.com/slingshot-pipelines/jsonschemas/blob/main/schemas/component-types/v1/terragrunt-infra.schema.json).
+
 ## Workflows
 
-| Stage | Workflow | Version | Inputs (observed) |
-|-------|----------|---------|-------------------|
-| Check (pull request) | `check-terragrunt-infra` | `v0` | `COMPONENT`, `TERRAFORM_VERSION`, `TERRAGRUNT_VERSION` |
-| Deploy (per environment) | `deploy-terragrunt-infra` | `v1` | `COMPONENT`, `ENVIRONMENT`, `TAG`, `TERRAFORM_VERSION`, `TERRAGRUNT_VERSION` |
+| Stage | Workflow | Inputs |
+|-------|----------|--------|
+| Check | [`check-terragrunt-infra`](https://github.com/slingshot-pipelines/workflows/blob/main/.github/workflows/check-terragrunt-infra.yml), [`check-terragrunt-infras`](https://github.com/slingshot-pipelines/workflows/blob/main/.github/workflows/check-terragrunt-infras.yml) | `COMPONENT`, `TERRAFORM_VERSION`, `TERRAGRUNT_VERSION`, `ALL`, `BUILD_CACHE_KEY`, `BUILD_CACHE_PATH` |
+| Deploy | [`deploy-terragrunt-infra`](https://github.com/slingshot-pipelines/workflows/blob/main/.github/workflows/deploy-terragrunt-infra.yml) | `COMPONENT`, `ENVIRONMENT`, `TAG`, `TERRAFORM_VERSION`, `TERRAGRUNT_VERSION`, `SLACK_CHANNEL` (optional) |
 
-The deployment sequence is started by `deploy-sequence-start`. Each environment is then deployed by a `repository_dispatch` event named `deploy-terragrunt-infra-<environment>`, for example `deploy-terragrunt-infra-dev`.
-
-## Gating a job on this type
-
-```yaml
-if: ${{ contains(needs.detect-changes.outputs.changed-component-types, '"terragrunt-infra"') }}
-# ...
-with:
-  COMPONENT: ${{ fromJSON(needs.detect-changes.outputs.changed-components-by-type).terragrunt-infra }}
-```
-
-See [change detection](../../concepts/change-detection.md) and the [rx-refill-reminders example](../../examples/rx-refill-reminders.md) for a full caller.
+The plural workflow (`check-*s`, `release-*ies`) takes a JSON list in `COMPONENTS` and runs the singular workflow for each. Workflow inputs and secrets are documented in the [workflows repository](https://github.com/slingshot-pipelines/workflows); see the [reusable workflows reference](../workflows.md).
