@@ -70,4 +70,4 @@ Types seen in current usage:
 | `components` | The `.components/` definitions themselves | `check-components` | n/a |
 | `github-workflows` | Workflow files under `.github/workflows` | `check-github-workflows` | n/a |
 
-See the [workflows reference](../reference/workflows.md) for details.
+Each type has its own page in the [types of components reference](../reference/types-of-components/terragrunt-infra.md). See also the [workflows reference](../reference/workflows.md).
