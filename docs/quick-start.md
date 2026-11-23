@@ -164,9 +164,9 @@ jobs:
       WRITER_APP_PRIVATE_KEY: ${{ secrets.WRITER_APP_PRIVATE_KEY }}
 ```
 
-### Deploy an environment
+### Deploy a component type
 
-Add one deploy workflow per component type you use. It is triggered by the event that `on-push.yml` dispatches, or by hand with `workflow_dispatch`, and it deploys the release tag to one environment. The event is named `deploy-<type>-<environment>`, so list one event per environment. After a successful deploy it dispatches the next environment's event, or, after the last environment, promotes the prerelease to a release. This example is `.github/workflows/deploy-terragrunt-infra.yml`:
+Deploy workflows are specific to a component type. Add one for each type you use, such as `deploy-terragrunt-infra.yml` and `deploy-lambda.yml`. Each one listens for that type's events, `deploy-<type>-<environment>`, with one event per environment, and calls that type's reusable deploy workflow. Each is triggered by the event that `on-push.yml` dispatches, or by hand with `workflow_dispatch`, and deploys the release tag to one environment. After a successful deploy it dispatches the next environment's event, or, after the last environment, promotes the prerelease to a release. This example is `.github/workflows/deploy-terragrunt-infra.yml`:
 
 ```yaml
 name: deploy (terragrunt-infra)
@@ -284,7 +284,7 @@ jobs:
 ```
 
 
-The other component types follow the same shape. Change the event names and the reusable workflow, for example `deploy-lambda.yml@deploy-lambda/v1`. See each [component type](./reference/types-of-components/index.md) for the workflows it uses and their inputs, and [Environments and deployment sequences](./concepts/environments-and-sequences.md) for how a sequence runs.
+For another component type, copy this workflow and change the `<type>` in the file name, the `name`, the event names and the reusable workflow, for example `deploy-lambda.yml@deploy-lambda/v1`. The inputs also differ by type, so check the component type's page. See each [component type](./reference/types-of-components/index.md) for the workflows it uses and their inputs, and [Environments and deployment sequences](./concepts/environments-and-sequences.md) for how a sequence runs.
 
 ### Configure the repository
 
