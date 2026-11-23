@@ -52,7 +52,7 @@ When `deployments` is present, both `environments` and `sequence` are required.
 | `deployments.sequence[].environment` | yes | The environment deployed to in this step |
 | `deployments.sequence[].manual` | no | If `true`, deployment to the next environment is not triggered automatically |
 
-Components of some types can also declare their own `deployments`. See [environments and sequences](../concepts/environments-and-sequences.md).
+Components of some types can also declare their own `deployments`. See [Deployments & Environments](../deployments-and-environments.md).
 
 ## Editor validation
 
