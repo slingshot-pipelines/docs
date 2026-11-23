@@ -46,11 +46,17 @@ deployments:
 
 A few things to know:
 
-- An environment can be declared without being in the sequence. It is then never deployed automatically, but can still be deployed with a [manual deploy](./guides/manual-deploy.md).
+- An environment can be declared without being in the sequence. It is then never deployed automatically, but can still be deployed with a [manual deploy](#manual-deploys).
 - An empty sequence means there is nothing to deploy to. The release is created straight away as a full release rather than a prerelease.
 - The `manual` flag is accepted by the schema, but the `parse-sequence` action in `action-deployment-sequence` does not read it. Honouring it is up to your deploy workflow, which would need to skip `dispatch-next` for a step marked `manual`.
 
-See [`info.yml`](./reference/info-yml.md#deployments) for the field reference. To add an environment to an existing project, follow [Add an environment](./guides/add-an-environment.md).
+See [`info.yml`](./reference/info-yml.md#deployments) for the field reference.
+
+### Adding an environment
+
+1. Declare it under `deployments.environments` and place it in `deployments.sequence`.
+2. Add its event to the deploy workflow's `repository_dispatch` types, for example `deploy-terragrunt-infra-stg`.
+3. Add the environment-specific configuration for the component. For Terragrunt infra, that is a new stack named after the environment, alongside the existing ones.
 
 ## How a sequence runs
 
@@ -122,7 +128,14 @@ The [Quick start](./quick-start.md) has a complete, working `deploy-terragrunt-i
 
 ## Manual deploys
 
-Deploy workflows also support `workflow_dispatch`, so you can deploy a specific tag to a specific environment, and choose whether the rest of the sequence should continue (`DISPATCH_NEXT`). See [Run a manual deploy](./guides/manual-deploy.md).
+Deploy workflows also support `workflow_dispatch`, so you can deploy a specific tag to a specific environment,.
+
+| Input | Meaning |
+|-------|---------|
+| `COMPONENT` | Component to deploy |
+| `ENVIRONMENT` | Target environment |
+| `TAG` | Release tag to deploy |
+| `DISPATCH_NEXT` | Continue to the next environment in the sequence on success? |
 
 ## A worked example
 
