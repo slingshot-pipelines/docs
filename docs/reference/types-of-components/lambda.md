@@ -43,4 +43,4 @@ No other fields are allowed. The schema is [`lambda.schema.json`](https://github
 | Check | [`check-lambda`](https://github.com/slingshot-pipelines/workflows/blob/main/.github/workflows/check-lambda.yml), [`check-lambdas`](https://github.com/slingshot-pipelines/workflows/blob/main/.github/workflows/check-lambdas.yml) | `COMPONENT`, `TERRAFORM_VERSION`, `TERRAGRUNT_VERSION` |
 | Deploy | [`deploy-lambda`](https://github.com/slingshot-pipelines/workflows/blob/main/.github/workflows/deploy-lambda.yml) | `COMPONENT`, `ENVIRONMENT`, `TAG`, `TERRAFORM_VERSION`, `TERRAGRUNT_VERSION`, `SLACK_CHANNEL` (optional) |
 
-The plural workflow (`check-*s`, `release-*ies`) takes a JSON list in `COMPONENTS` and runs the singular workflow for each. Workflow inputs and secrets are documented in the [workflows repository](https://github.com/slingshot-pipelines/workflows); see the [reusable workflows reference](../workflows.md).
+The plural workflow (`check-*s`, `release-*ies`) takes a JSON list in `COMPONENTS` and runs the singular workflow for each. Workflow inputs and secrets are documented in the [workflows repository](https://github.com/slingshot-pipelines/workflows).
