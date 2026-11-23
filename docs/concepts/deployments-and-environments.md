@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2.5
+sidebar_position: 2
 ---
 
 # Deployments & Environments
@@ -118,7 +118,7 @@ After a successful deploy:
 
 On a manual run, only continue the sequence when `DISPATCH_NEXT` is `true`.
 
-The [Quick start](./quick-start.md) has a complete, working `deploy-terragrunt-infra.yml` that does all of this. To support another component type, copy it and change the type in the file name, the event names and the reusable workflow it calls.
+The [Quick start](../quick-start.md) has a complete, working `deploy-terragrunt-infra.yml` that does all of this. To support another component type, copy it and change the type in the file name, the event names and the reusable workflow it calls.
 
 ### Practical notes
 
@@ -139,4 +139,4 @@ Deploy workflows also support `workflow_dispatch`, so you can deploy a specific 
 
 ## A worked example
 
-The [rx-refill-reminders example](./examples/rx-refill-reminders.md) shows a project with `dev` and `prd`, its `on-push.yml` that starts the sequence, and its `deploy-terragrunt-infra.yml` that runs it.
+The [rx-refill-reminders example](../examples/rx-refill-reminders.md) shows a project with `dev` and `prd`, its `on-push.yml` that starts the sequence, and its `deploy-terragrunt-infra.yml` that runs it.

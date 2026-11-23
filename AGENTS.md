@@ -22,8 +22,8 @@ Workflows are versioned per workflow with `<name>/v<major>` tags. Plural workflo
 
 ## Guidelines
 
-- When a component type or workflow is added or changed upstream, update `docs/reference/types-of-components/`, `docs/reference/info-yml.md` and `docs/reference/workflows.md` to match.
-- Keep one page per component type in `docs/reference/types-of-components/`.
+- When a component type or workflow is added or changed upstream, update `docs/concepts/reference/types-of-components/`, `docs/concepts/reference/info-yml.md` and `docs/concepts/reference/workflows.md` to match.
+- Keep one page per component type in `docs/concepts/reference/types-of-components/`.
 - Do not mark content as "Inferred" if it can be checked against the two repositories above. Check it instead.
 
 ## Commands

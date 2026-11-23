@@ -6,8 +6,6 @@ sidebar_position: 3
 
 A project describes a repository as a whole: its name and, optionally, the environments it deploys to and the order they are deployed in. Each repository has one project, defined in `.components/info.yml`. The things inside the repository that are checked and deployed are its [components](./types-of-components/index.md).
 
-For the concepts behind this file, see [Projects and components](../concepts/projects-and-components.md).
-
 ## Example
 
 ```yaml
