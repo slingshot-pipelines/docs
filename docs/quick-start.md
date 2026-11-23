@@ -284,7 +284,7 @@ jobs:
 ```
 
 
-For another component type, copy this workflow and change the `<type>` in the file name, the `name`, the event names and the reusable workflow, for example `deploy-lambda.yml@deploy-lambda/v1`. The inputs also differ by type, so check the component type's page. See each [component type](./reference/types-of-components/index.md) for the workflows it uses and their inputs, and [Environments and deployment sequences](./concepts/environments-and-sequences.md) for how a sequence runs.
+For another component type, copy this workflow and change the `<type>` in the file name, the `name`, the event names and the reusable workflow, for example `deploy-lambda.yml@deploy-lambda/v1`. The inputs differ by type, so see each [component type](./reference/types-of-components/index.md) for the workflows it uses and their inputs. See [Environments and deployment sequences](./concepts/environments-and-sequences.md) for how a sequence runs.
 
 ### Configure the repository
 
