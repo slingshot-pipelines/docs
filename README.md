@@ -1,6 +1,6 @@
-# slingshot-pipelines docs
+# docs
 
-Source for the slingshot-pipelines documentation site, built with [Docusaurus](https://docusaurus.io).
+GitHub Pages site with documentation for slingshot-pipelines, built with [Docusaurus](https://docusaurus.io).
 
 ```bash
 npm install
