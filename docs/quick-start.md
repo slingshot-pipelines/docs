@@ -2,9 +2,6 @@
 sidebar_position: 2
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # Quick start
 
 Adopting slingshot-pipelines in a repository takes three steps: describe what the repository contains, add the GitHub workflows that run the pipelines, then add content.
@@ -17,24 +14,7 @@ This page does not cover creating the GitHub App or configuring cloud authentica
 
 Create a `.components` folder at the root of the repository. It holds one project file and one folder per component.
 
-`.components/info.yml` describes the project, the environments it deploys to and the order they are deployed in. Every project that deploys needs a `sequence`, even if it only has one environment:
-
-<Tabs groupId="environments">
-<TabItem value="single" label="One environment" default>
-
-```yaml
-project: my-project
-
-deployments:
-  environments:
-    prd: {}
-
-  sequence:
-    - environment: prd
-```
-
-</TabItem>
-<TabItem value="multiple" label="Multiple environments">
+`.components/info.yml` describes the project, the environments it deploys to and the order they are deployed in. A `sequence` lists the environments in the order they are deployed. It also works with a single environment.
 
 ```yaml
 project: my-project
@@ -48,9 +28,6 @@ deployments:
     - environment: dev
     - environment: prd
 ```
-
-</TabItem>
-</Tabs>
 
 Each component gets its own `.components/<name>/info.yml`. For example, `.components/infra/info.yml`:
 
@@ -129,7 +106,7 @@ jobs:
 
 ### Start deployments on merge
 
-`.github/workflows/on-push.yml` runs when changes land on `main`. For each changed component it tags a prerelease and starts the deployment sequence from `.components/info.yml`, by dispatching a deploy event for the first environment. You need this workflow whether you have one environment or several.
+`.github/workflows/on-push.yml` runs when changes land on `main`. For each changed component it tags a prerelease and starts the deployment sequence from `.components/info.yml`, by dispatching a deploy event for the first environment.
 
 ```yaml
 name: on-push
@@ -189,99 +166,7 @@ jobs:
 
 ### Deploy an environment
 
-Add one deploy workflow per component type you use. It is triggered by the event that `on-push.yml` dispatches, or by hand with `workflow_dispatch`, and it deploys the release tag to one environment. The event is named `deploy-<type>-<environment>`, so list one event per environment. This example is `.github/workflows/deploy-terragrunt-infra.yml`:
-
-<Tabs groupId="environments">
-<TabItem value="single" label="One environment" default>
-
-With one environment, the workflow deploys and then promotes the prerelease to a release.
-
-```yaml
-name: deploy (terragrunt-infra)
-
-run-name: Deploy ${{ github.event.client_payload.tag || inputs.TAG }} to ${{ github.event.client_payload.environment || inputs.ENVIRONMENT }}
-
-on:
-  repository_dispatch:
-    types:
-      - deploy-terragrunt-infra-prd
-
-  workflow_dispatch:
-    inputs:
-      COMPONENT:
-        description: component
-        required: true
-        type: string
-      ENVIRONMENT:
-        description: environment
-        required: true
-        type: string
-      TAG:
-        description: tag
-        required: true
-        type: string
-
-permissions:
-  contents: write
-  pull-requests: write
-  id-token: write
-
-concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: false
-
-jobs:
-  parse-deployment-info:
-    runs-on: ubuntu-latest
-    outputs:
-      COMPONENT: ${{ steps.deployment-info.outputs.COMPONENT }}
-      ENVIRONMENT: ${{ steps.deployment-info.outputs.ENVIRONMENT }}
-      TAG: ${{ steps.deployment-info.outputs.TAG }}
-    steps:
-      - name: Parse repository_dispatch payload
-        id: parse-dispatch-event
-        if: github.event_name == 'repository_dispatch'
-        uses: slingshot-pipelines/action-deployment-sequence/parse-dispatch-event@v0
-        with:
-          CLIENT_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
-      - name: Consolidate deployment info
-        id: deployment-info
-        env:
-          COMPONENT: ${{ steps.parse-dispatch-event.outputs.COMPONENT || inputs.COMPONENT }}
-          ENVIRONMENT: ${{ steps.parse-dispatch-event.outputs.ENVIRONMENT || inputs.ENVIRONMENT }}
-          TAG: ${{ steps.parse-dispatch-event.outputs.TAG || inputs.TAG }}
-        run: |
-          {
-            echo "COMPONENT=$COMPONENT"
-            echo "ENVIRONMENT=$ENVIRONMENT"
-            echo "TAG=$TAG"
-          } | tee -a "$GITHUB_OUTPUT"
-
-  deploy:
-    needs: [parse-deployment-info]
-    uses: slingshot-pipelines/workflows/.github/workflows/deploy-terragrunt-infra.yml@deploy-terragrunt-infra/v1
-    with:
-      COMPONENT: ${{ needs.parse-deployment-info.outputs.COMPONENT }}
-      ENVIRONMENT: ${{ needs.parse-deployment-info.outputs.ENVIRONMENT }}
-      TAG: ${{ needs.parse-deployment-info.outputs.TAG }}
-      TERRAFORM_VERSION: ${{ vars.TERRAFORM_VERSION }}
-      TERRAGRUNT_VERSION: ${{ vars.TERRAGRUNT_VERSION }}
-    secrets: inherit
-
-  release:
-    needs: [parse-deployment-info, deploy]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: slingshot-pipelines/action-promote-prerelease@v0
-        with:
-          TAG: ${{ needs.parse-deployment-info.outputs.TAG }}
-```
-
-</TabItem>
-<TabItem value="multiple" label="Multiple environments">
-
-With several environments, the workflow also looks up the next environment in the sequence. After a successful deploy it dispatches the next environment's event, or, after the last environment, promotes the prerelease to a release.
+Add one deploy workflow per component type you use. It is triggered by the event that `on-push.yml` dispatches, or by hand with `workflow_dispatch`, and it deploys the release tag to one environment. The event is named `deploy-<type>-<environment>`, so list one event per environment. After a successful deploy it dispatches the next environment's event, or, after the last environment, promotes the prerelease to a release. This example is `.github/workflows/deploy-terragrunt-infra.yml`:
 
 ```yaml
 name: deploy (terragrunt-infra)
@@ -398,8 +283,6 @@ jobs:
           NEXT_ENVIRONMENT: ${{ needs.parse-deployment-info.outputs.NEXT_ENVIRONMENT }}
 ```
 
-</TabItem>
-</Tabs>
 
 The other component types follow the same shape. Change the event names and the reusable workflow, for example `deploy-lambda.yml@deploy-lambda/v1`. See each [component type](./reference/types-of-components/index.md) for the workflows it uses and their inputs, and [Environments and deployment sequences](./concepts/environments-and-sequences.md) for how a sequence runs.
 
