@@ -23,31 +23,32 @@ jobs:
   preview:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-
-      - uses: actions/setup-node@v6
+      -
+        uses: actions/checkout@v6
+      -
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
-
-      - run: npm ci
-
+      -
+        run: npm ci
       # Previews are served from /docs/pr/<number>/ and kept out of search.
-      - run: npm run build
+      -
+        run: npm run build
         env:
           DOCS_BASE_URL: /docs/pr/${{ github.event.number }}/
           DOCS_NOINDEX: 'true'
-
       # Fork PRs have no write token, so they only get the build check above.
-      - name: Deploy preview
+      -
+        name: Deploy preview
         if: github.event.pull_request.head.repo.full_name == github.repository
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build
           branch: gh-pages
           target-folder: pr/${{ github.event.number }}
-
-      - name: Comment preview link
+      -
+        name: Comment preview link
         if: github.event.pull_request.head.repo.full_name == github.repository
         uses: marocchino/sticky-pull-request-comment@v2
         with:
