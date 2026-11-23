@@ -2,11 +2,14 @@ name: deploy-docs
 
 # Production is published to the root of the gh-pages branch (Pages source:
 # "Deploy from a branch"). PR previews are published to pr/<number>/ on the
-# same branch and removed when the PR is closed.
+# same branch; they are removed by the cleanup-pr-preview workflow.
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize, closed]
+    types:
+      - opened
+      - reopened
+      - synchronize
   push:
     branches:
       - main
@@ -15,7 +18,7 @@ permissions:
   contents: write
   pull-requests: write
 
-# Production and preview deploys all push to gh-pages, so serialize them.
+# Production, preview and cleanup runs all push to gh-pages, so serialize them.
 concurrency:
   group: gh-pages-deploy
   cancel-in-progress: false
@@ -25,27 +28,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-        if: github.event.action != 'closed'
 
       - uses: actions/setup-node@v6
-        if: github.event.action != 'closed'
         with:
           node-version: 22
           cache: npm
 
       - run: npm ci
-        if: github.event.action != 'closed'
 
-      - name: Build (production)
-        if: github.event_name == 'push'
-        run: npm run build
-
-      - name: Build (PR preview)
-        if: github.event_name == 'pull_request' && github.event.action != 'closed'
-        run: npm run build
+      # PR previews are served from /docs/pr/<number>/ and kept out of search.
+      - name: Build
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+            export DOCS_BASE_URL="/docs/pr/${PR_NUMBER}/"
+            export DOCS_NOINDEX=true
+          fi
+          npm run build
         env:
-          DOCS_BASE_URL: /docs/pr/${{ github.event.number }}/
-          DOCS_NOINDEX: 'true'
+          PR_NUMBER: ${{ github.event.number }}
 
       - name: Deploy production
         if: github.event_name == 'push'
@@ -54,15 +54,28 @@ jobs:
           folder: build
           branch: gh-pages
           # Keep PR previews when production is redeployed.
-          clean-exclude: pr/
+          clean-exclude: |
+            pr/
 
       # Fork PRs have no write token, so they only get the build check above.
-      - name: Deploy / remove PR preview
+      - name: Deploy PR preview
         if: >-
           github.event_name == 'pull_request' &&
           github.event.pull_request.head.repo.full_name == github.repository
-        uses: rossjrw/pr-preview-action@v1
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          source-dir: build
-          umbrella-dir: pr
-          preview-branch: gh-pages
+          folder: build
+          branch: gh-pages
+          target-folder: pr/${{ github.event.number }}
+
+      - name: Comment preview link
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.repo.full_name == github.repository
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: pr-preview
+          message: |
+            :rocket: Docs preview: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr/${{ github.event.number }}/
+
+            Built from ${{ github.event.pull_request.head.sha }}. It may take a minute for the GitHub Pages deployment to finish.
