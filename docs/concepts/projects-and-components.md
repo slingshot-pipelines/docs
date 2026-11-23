@@ -62,12 +62,14 @@ The `$schema` comment gives you autocompletion and validation in editors that us
 
 ## Component types
 
-Types seen in current usage:
+| Type | Used for |
+|------|----------|
+| `github-action` | A GitHub Action |
+| `json-schemas` | A collection of JSON Schemas |
+| `lambda` | An AWS Lambda function |
+| `library` | A Go or Node library released by tagging |
+| `s3-website` | A static website deployed to S3 |
+| `terraform-modules` | Reusable Terraform modules |
+| `terragrunt-infra` | Terragrunt/Terraform infrastructure |
 
-| Type | Used for | Check workflow | Deploy workflow |
-|------|----------|----------------|-----------------|
-| `terragrunt-infra` | Terragrunt/Terraform infrastructure | `check-terragrunt-infra` | `deploy-terragrunt-infra` |
-| `components` | The `.components/` definitions themselves | `check-components` | n/a |
-| `github-workflows` | Workflow files under `.github/workflows` | `check-github-workflows` | n/a |
-
-See the [workflows reference](../reference/workflows.md) for details.
+Each type has its own page in the [types of components reference](../reference/types-of-components/terragrunt-infra.md), including its extra fields and the check, deploy and release workflows that apply.

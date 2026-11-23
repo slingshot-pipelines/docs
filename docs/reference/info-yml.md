@@ -19,18 +19,17 @@ Reference one with a modeline for editor validation:
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `project` | yes | Project name |
+| `project` | yes | Project name. Typically matches the repository name |
+| `description` | no | Description of the project |
 | `deployments.environments` | no | Map of environment name to settings (`{}` for defaults) |
-| `deployments.sequence` | no | Ordered list of `{environment: <name>}` |
+| `deployments.sequence` | no | Ordered list of `{environment: <name>, manual?: boolean}`. `manual: true` stops deployment to the next environment being triggered automatically |
 
 ## Component (`.components/<name>/info.yml`)
 
 | Field | Required | Description |
 |-------|----------|-------------|
 | `component` | yes | Component name |
-| `type` | yes | Component type, e.g. `terragrunt-infra` |
+| `type` | yes | One of `github-action`, `json-schemas`, `lambda`, `library`, `s3-website`, `terraform-modules`, `terragrunt-infra` |
 | `path` | yes | Directory containing the component |
 
-:::note[Inferred]
-Required/optional status is inferred from examples; check the schema.
-:::
+Some types add fields (and the `deployments` field is only accepted by `lambda`, `s3-website` and `terragrunt-infra`). Unknown fields are rejected. See [types of components](./types-of-components/terragrunt-infra.md) for each type.
