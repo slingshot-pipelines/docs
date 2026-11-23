@@ -85,7 +85,7 @@ const config: Config = {
           title: 'Docs',
           items: [
             {label: 'Introduction', to: '/'},
-            {label: 'Getting started', to: '/getting-started/adopt-in-a-repo'},
+            {label: 'Quick start', to: '/quick-start'},
             {label: 'Example: rx-refill-reminders', to: '/examples/rx-refill-reminders'},
           ],
         },
