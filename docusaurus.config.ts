@@ -13,7 +13,10 @@ const config: Config = {
 
   // GitHub Pages: https://slingshot-pipelines.github.io/docs/
   url: 'https://slingshot-pipelines.github.io',
-  baseUrl: '/docs/',
+  // Overridden for PR previews, which are served from /docs/pr/<number>/.
+  baseUrl: process.env.DOCS_BASE_URL ?? '/docs/',
+  // PR previews are unlisted: keep them out of search engines.
+  noIndex: process.env.DOCS_NOINDEX === 'true',
   organizationName: 'slingshot-pipelines',
   projectName: 'docs',
 
